@@ -8,7 +8,6 @@ def run(results_directory, optimizer, objectivefunc, Iterations):
 
     for j in range(0, len(objectivefunc)):
         objective_name = objectivefunc[j]
-        print(objective_name)
 
         startIteration = 0
         if "SSA" in optimizer:
@@ -16,7 +15,6 @@ def run(results_directory, optimizer, objectivefunc, Iterations):
         allGenerations = [x + 1 for x in range(startIteration, Iterations)]
         for i in range(len(optimizer)):
             optimizer_name = optimizer[i]
-            print(optimizer_name)
 
             row = fileResultsData[
                 (fileResultsData["Optimizer"] == optimizer_name)
