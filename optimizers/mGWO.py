@@ -12,7 +12,7 @@ from solution import solution
 import time
 
 
-def GWO(objf, lb, ub, dim, SearchAgents_no, Max_iter):
+def mGWO(objf, lb, ub, dim, SearchAgents_no, Max_iter):
 
     # Max_iter=1000
     # lb=-100
@@ -140,7 +140,7 @@ def GWO(objf, lb, ub, dim, SearchAgents_no, Max_iter):
     s.endTime = time.strftime("%Y-%m-%d-%H-%M-%S")
     s.executionTime = timerEnd - timerStart
     s.convergence = Convergence_curve
-    s.optimizer = "GWO"
+    s.optimizer = "mGWO"
     s.objfname = objf.__name__
 
     return s
