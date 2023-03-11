@@ -51,7 +51,7 @@ def selector(algo, func_details, popSize, Iter):
     elif algo == "GWO":
         x = gwo.GWO(getattr(benchmarks, function_name), lb, ub, dim, popSize, Iter)
     elif algo == "mGWO":
-        x = mgwo.GWO(getattr(benchmarks, function_name), lb, ub, dim, popSize, Iter)
+        x = mgwo.mGWO(getattr(benchmarks, function_name), lb, ub, dim, popSize, Iter)
     elif algo == "WOA":
         x = woa.WOA(getattr(benchmarks, function_name), lb, ub, dim, popSize, Iter)
     elif algo == "MVO":
