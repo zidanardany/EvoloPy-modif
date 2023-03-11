@@ -46,7 +46,7 @@ def mGWO(objf, lb, ub, dim, SearchAgents_no, Max_iter):
     s = solution()
 
     # Loop counter
-    print('GWO is optimizing  "' + objf.__name__ + '"')
+    print('mGWO is optimizing  "' + objf.__name__ + '"')
 
     timerStart = time.time()
     s.startTime = time.strftime("%Y-%m-%d-%H-%M-%S")
