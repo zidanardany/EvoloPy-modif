@@ -37,8 +37,9 @@ def hybrid_composition_func(x, fun_num, func, o, sigma, lamda, bias, M):
 
     return fit
     
+#-----------------------------------------------------------------------------------------------
 #   1.	Composition Function 1
-def com_func1(x):
+def CF1(x):
     D = len(x)
     fun_num = 10
     mat_dict = loadmat('com_func1_data.mat')  # load predefined optima
@@ -75,7 +76,7 @@ def com_func1(x):
 
 #-----------------------------------------------------------------------------------------------
 #   2.	Composition Function 2
-def com_func2(x):
+def CF2(x):
     D = len(x)
     fun_num = 10
     mat_dict = loadmat('com_func2_data.mat')  # load predefined optima
@@ -118,7 +119,7 @@ def com_func2(x):
     
 #-----------------------------------------------------------------------------------------------
 #   3.	Composition Function 3
-def com_func3(x):
+def CF3(x):
     D = len(x)
     fun_num = 10
     mat_dict = loadmat('com_func3_data.mat')  # load predefined optima
@@ -161,7 +162,7 @@ def com_func3(x):
 
 #-----------------------------------------------------------------------------------------------
 #   4.	Rotated Hybrid Composition Function 1
-def hybrid_func1(x):
+def CF4(x):
     D = len(x)
     fun_num = 10
     mat_dict = loadmat('hybrid_func1_data.mat')  # load predefined optima
@@ -204,7 +205,7 @@ def hybrid_func1(x):
 
 #-----------------------------------------------------------------------------------------------
 #   5.	Rotated Hybrid Composition Function 2
-def hybrid_func2(x):
+def CF5(x):
     D = len(x)
     fun_num = 10
     mat_dict = loadmat('hybrid_func2_data.mat')  # load predefined optima
@@ -247,7 +248,7 @@ def hybrid_func2(x):
 
 #-----------------------------------------------------------------------------------------------
 #   6.	Rotated Hybrid Composition Function 3
-def hybrid_func3(x):
+def CF6(x):
     D = len(x)
     fun_num = 10
     mat_dict = loadmat('hybrid_func2_data.mat')  # load predefined optima
@@ -291,12 +292,12 @@ def hybrid_func3(x):
 def getFunctionDetails(a):
     # [name, lb, ub, dim]
     param = {
-        "F1": ["com_func1", -5, 5, 10],
-        "F2": ["com_func2", -5, 5, 10],
-        "F3": ["com_func3", -5, 5, 10],
-        "F4": ["hybrid_func1", -5, 5, 10],
-        "F5": ["hybrid_func2", -5, 5, 10],
-        "F6": ["hybrid_func3", -5, 5, 10],
+        "CF1": ["CF1", -5, 5, 10],
+        "CF2": ["CF2", -5, 5, 10],
+        "CF3": ["CF3", -5, 5, 10],
+        "CF4": ["CF4", -5, 5, 10],
+        "CF5": ["CF5", -5, 5, 10],
+        "CF6": ["CF6", -5, 5, 10],
     }
     return param.get(a, "nothing")
 
