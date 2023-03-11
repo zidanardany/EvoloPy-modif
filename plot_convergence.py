@@ -5,6 +5,7 @@ import pandas as pd
 def run(results_directory, optimizer, objectivefunc, Iterations):
     plt.ioff()
     fileResultsData = pd.read_csv(results_directory + "/experiment.csv")
+    print(fileResultsData)
 
     for j in range(0, len(objectivefunc)):
         objective_name = objectivefunc[j]
