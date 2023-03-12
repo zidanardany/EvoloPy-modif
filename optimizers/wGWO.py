@@ -12,7 +12,7 @@ from solution import solution
 import time
 
 
-def GWO(objf, lb, ub, dim, SearchAgents_no, Max_iter):
+def wGWO(objf, lb, ub, dim, SearchAgents_no, Max_iter):
 
     # Max_iter=1000
     # lb=-100
@@ -46,7 +46,7 @@ def GWO(objf, lb, ub, dim, SearchAgents_no, Max_iter):
     s = solution()
 
     # Loop counter
-    print('GWO is optimizing  "' + objf.__name__ + '"')
+    print('wGWO is optimizing  "' + objf.__name__ + '"')
 
     timerStart = time.time()
     s.startTime = time.strftime("%Y-%m-%d-%H-%M-%S")
@@ -95,6 +95,7 @@ def GWO(objf, lb, ub, dim, SearchAgents_no, Max_iter):
                 # Equation (3.3)
                 C1 = 2 * r2
                 # Equation (3.4)
+                w1 = A1 * C1
 
                 D_alpha = abs(C1 * Alpha_pos[j] - Positions[i, j])
                 # Equation (3.5)-part 1
@@ -108,6 +109,7 @@ def GWO(objf, lb, ub, dim, SearchAgents_no, Max_iter):
                 # Equation (3.3)
                 C2 = 2 * r2
                 # Equation (3.4)
+                w2 = A2 * C2
 
                 D_beta = abs(C2 * Beta_pos[j] - Positions[i, j])
                 # Equation (3.5)-part 2
@@ -121,13 +123,14 @@ def GWO(objf, lb, ub, dim, SearchAgents_no, Max_iter):
                 # Equation (3.3)
                 C3 = 2 * r2
                 # Equation (3.4)
+                w3 = A3 * C3
 
                 D_delta = abs(C3 * Delta_pos[j] - Positions[i, j])
                 # Equation (3.5)-part 3
                 X3 = Delta_pos[j] - A3 * D_delta
                 # Equation (3.5)-part 3
 
-                Positions[i, j] = (X1 + X2 + X3) / 3  # Equation (3.7)
+                Positions[i, j] = (w1 * X1 + w2 * X2 + w3 * X3) / (w1 + w2 + w3)  # Equation (3.7)
 
         Convergence_curve[l] = Alpha_score
 
@@ -140,7 +143,7 @@ def GWO(objf, lb, ub, dim, SearchAgents_no, Max_iter):
     s.endTime = time.strftime("%Y-%m-%d-%H-%M-%S")
     s.executionTime = timerEnd - timerStart
     s.convergence = Convergence_curve
-    s.optimizer = "GWO"
+    s.optimizer = "wGWO"
     s.objfname = objf.__name__
 
     return s
