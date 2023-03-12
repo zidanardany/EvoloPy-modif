@@ -9,8 +9,8 @@ import optimizers.PSO as pso
 import optimizers.MVO as mvo
 import optimizers.GWO as gwo
 import optimizers.mGWO as mgwo
-import optimizers.iGWO as mgwo
-import optimizers.wGWO as mgwo
+import optimizers.iGWO as igwo
+import optimizers.wGWO as wgwo
 import optimizers.MFO as mfo
 import optimizers.CS as cs
 import optimizers.BAT as bat
@@ -55,9 +55,9 @@ def selector(algo, func_details, popSize, Iter):
     elif algo == "mGWO":
         x = mgwo.mGWO(getattr(benchmarks, function_name), lb, ub, dim, popSize, Iter)
     elif algo == "iGWO":
-        x = mgwo.mGWO(getattr(benchmarks, function_name), lb, ub, dim, popSize, Iter)
+        x = igwo.iGWO(getattr(benchmarks, function_name), lb, ub, dim, popSize, Iter)
     elif algo == "wGWO":
-        x = mgwo.mGWO(getattr(benchmarks, function_name), lb, ub, dim, popSize, Iter)
+        x = wgwo.wGWO(getattr(benchmarks, function_name), lb, ub, dim, popSize, Iter)
     elif algo == "WOA":
         x = woa.WOA(getattr(benchmarks, function_name), lb, ub, dim, popSize, Iter)
     elif algo == "MVO":
