@@ -12,7 +12,7 @@ from solution import solution
 import time
 
 
-def GWO(objf, lb, ub, dim, SearchAgents_no, Max_iter):
+def zGWO(objf, lb, ub, dim, SearchAgents_no, Max_iter):
 
     # Max_iter=1000
     # lb=-100
@@ -29,6 +29,9 @@ def GWO(objf, lb, ub, dim, SearchAgents_no, Max_iter):
 
     Delta_pos = numpy.zeros(dim)
     Delta_score = float("inf")
+    
+    # initialize candidate position
+    X_GWO = numpy.zeros(dim)
 
     if not isinstance(lb, list):
         lb = [lb] * dim
@@ -46,12 +49,15 @@ def GWO(objf, lb, ub, dim, SearchAgents_no, Max_iter):
     s = solution()
 
     # Loop counter
-    print('GWO is optimizing  "' + objf.__name__ + '"')
+    print('zGWO is optimizing  "' + objf.__name__ + '"')
 
     timerStart = time.time()
     s.startTime = time.strftime("%Y-%m-%d-%H-%M-%S")
     # Main loop
     for l in range(0, Max_iter):
+        
+        r1 = numpy.random.permutation(SearchAgents_no)
+        
         for i in range(0, SearchAgents_no):
 
             # Return back the search agents that go beyond the boundaries of the search space
@@ -127,7 +133,21 @@ def GWO(objf, lb, ub, dim, SearchAgents_no, Max_iter):
                 X3 = Delta_pos[j] - A3 * D_delta
                 # Equation (3.5)-part 3
 
-                Positions[i, j] = (X1 + X2 + X3) / 3  # Equation (3.7)
+                X_GWO[j] = (X1 + X2 + X3) / 3  # Equation (3.7)
+                
+            radius = numpy.sqrt(numpy.sum((Positions[i, :] - X_GWO)**2))
+            neighbor_dist = numpy.array([numpy.sqrt(numpy.sum((Positions[i, :] - Positions[k, :])**2)) for k in range(SearchAgents_no)])
+            neighbor_id = numpy.where(neighbor_dist <= radius)[0]
+            random_Idx_neighbor = numpy.random.randint(len(neighbor_id), size=dim)
+
+            for j in range(dim):
+                X_DLH[j] = Positions[i, j] + numpy.random.rand() * \
+                    (Positions[Idx[random_Idx_neighbor[j]], j] - Positions[r1[i], j])  # Equation (12)
+                
+            if objf(X_GWO) < objf(X_DLH):
+                Positions[i, :] = X_GWO
+            else:
+                Positions[i, :] = X_DLH
 
         Convergence_curve[l] = Alpha_score
 
@@ -140,7 +160,7 @@ def GWO(objf, lb, ub, dim, SearchAgents_no, Max_iter):
     s.endTime = time.strftime("%Y-%m-%d-%H-%M-%S")
     s.executionTime = timerEnd - timerStart
     s.convergence = Convergence_curve
-    s.optimizer = "GWO"
+    s.optimizer = "zGWO"
     s.objfname = objf.__name__
 
     return s
