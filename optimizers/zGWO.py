@@ -136,13 +136,10 @@ def zGWO(objf, lb, ub, dim, SearchAgents_no, Max_iter):
                 X_GWO[j] = (X1 + X2 + X3) / 3  # Equation (3.7)
                 
             radius = numpy.sqrt(numpy.sum((Positions[i, :] - X_GWO)**2))
-            print(radius)
             neighbor_dist = numpy.array([numpy.sqrt(numpy.sum((Positions[i, :] - Positions[k, :])**2)) for k in range(SearchAgents_no)])
-            print(neighbor_dist)
-            neighbor_id = numpy.where(neighbor_dist <= radius)[0]
-            print(neighbor_id)
+            neighbor = neighbor_dist <= radius
+            neighbor_id = numpy.where(neighbor)[0]
             random_neighbor_id = numpy.random.randint(len(neighbor_id), size=dim)
-            print(random_neighbor_id)
 
             for j in range(dim):
                 X_DLH[j] = Positions[i, j] + numpy.random.rand() * (Positions[neighbor_id[random_neighbor_id[j]], j] - Positions[r1[i], j])  # Equation (12)
