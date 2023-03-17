@@ -90,6 +90,10 @@ def zGWO(objf, lb, ub, dim, SearchAgents_no, Max_iter):
 
         # Update the Position of search agents including omegas
         for i in range(0, SearchAgents_no):
+            
+            # pick random wolf from population
+            random_wolf = numpy.random.permutation(SearchAgents_no)
+            
             for j in range(0, dim):
 
                 r1 = random.random()  # r1 is a random number in [0,1]
@@ -141,7 +145,7 @@ def zGWO(objf, lb, ub, dim, SearchAgents_no, Max_iter):
             for j in range(dim):
                 X_DLH[j] = Positions[i, j] + numpy.random.rand() * (
                     Positions[neighbor_id[random_neighbor_id[j]], j] 
-                    - Positions[random.randrange(0, SearchAgents_no), j]
+                    - Positions[random_wolf[i], j]
                 )  # Equation (12)
             
             if objf(X_GWO) < objf(X_DLH):
