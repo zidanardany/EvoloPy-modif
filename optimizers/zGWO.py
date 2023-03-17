@@ -143,7 +143,6 @@ def zGWO(objf, lb, ub, dim, SearchAgents_no, Max_iter):
                     Positions[neighbor_id[random_neighbor_id[j]], j] 
                     - Positions[random.randrange(0, SearchAgents_no), j]
                 )  # Equation (12)
-                print(Positions[neighbor_id[random_neighbor_id[j]], j])
             
             if objf(X_GWO) < objf(X_DLH):
                 Positions[i, :] = X_GWO
