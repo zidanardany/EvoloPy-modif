@@ -58,7 +58,7 @@ def mGWO(objf, lb, ub, dim, SearchAgents_no, Max_iter):
     s = solution()
 
     # Loop counter
-    print('zGWO is optimizing  "' + objf.__name__ + '"')
+    print('mGWO is optimizing  "' + objf.__name__ + '"')
 
     timerStart = time.time()
     s.startTime = time.strftime("%Y-%m-%d-%H-%M-%S")
@@ -117,6 +117,10 @@ def mGWO(objf, lb, ub, dim, SearchAgents_no, Max_iter):
 
         # Update the Position of search agents including omegas
         for i in range(0, SearchAgents_no):
+            
+            # pick random wolf from population
+            random_wolf = numpy.random.permutation(SearchAgents_no)
+            
             for j in range(0, dim):
 
                 r1 = random.random()  # r1 is a random number in [0,1]
@@ -172,8 +176,7 @@ def mGWO(objf, lb, ub, dim, SearchAgents_no, Max_iter):
                     - Positions[random_wolf[i], j]
                 )  # Equation (12)
             
-            current_pos = Positions[i, :].copy()
-            
+            # select best candidate solution
             if objf(X_GWO) < objf(X_DLH):
                 Positions[i, :] = X_GWO.copy()
             else:
