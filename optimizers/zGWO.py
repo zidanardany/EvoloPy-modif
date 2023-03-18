@@ -99,7 +99,7 @@ def zGWO(objf, lb, ub, dim, SearchAgents_no, Max_iter):
         step = u / abs(v) ** (1 / beta)
         par = 2 - 2 * ((l ** 2) / (Max_iter ** 2))
         
-        Leader_pos = np.array([Alpha_pos, Beta_pos, Delta_pos])
+        Leader_pos = numpy.array([Alpha_pos, Beta_pos, Delta_pos])
         
         for i in range(0, len(Leader_pos)):
             old_pos = Leader_pos[i]
