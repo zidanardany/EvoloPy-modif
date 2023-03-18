@@ -158,7 +158,26 @@ def mGWO(objf, lb, ub, dim, SearchAgents_no, Max_iter):
                 X3 = Delta_pos[j] - A3 * D_delta
                 # Equation (3.5)-part 3
 
-                Positions[i, j] = (X1 + X2 + X3) / 3  # Equation (3.7)
+                X_GWO[j] = (X1 + X2 + X3) / 3  # Equation (3.7)
+                
+            # Construct neighborhood for each search agents
+            radius = numpy.sqrt(numpy.sum((Positions[i, :] - X_GWO)**2))
+            neighbor_dist = numpy.array([numpy.sqrt(numpy.sum((Positions[i, :] - Positions[k, :])**2)) for k in range(SearchAgents_no)])
+            neighbor_id = numpy.where(neighbor_dist <= radius)[0] # Equation (12)
+            random_neighbor_id = numpy.random.randint(len(neighbor_id), size=dim)
+
+            for j in range(dim):
+                X_DLH[j] = Positions[i, j] + numpy.random.rand() * (
+                    Positions[neighbor_id[random_neighbor_id[j]], j] 
+                    - Positions[random_wolf[i], j]
+                )  # Equation (12)
+            
+            current_pos = Positions[i, :].copy()
+            
+            if objf(X_GWO) < objf(X_DLH):
+                Positions[i, :] = X_GWO.copy()
+            else:
+                Positions[i, :] = X_DLH.copy()
 
         Convergence_curve[l] = Alpha_score
 
