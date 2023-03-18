@@ -164,9 +164,10 @@ def zGWO(objf, lb, ub, dim, SearchAgents_no, Max_iter):
 
                 X_GWO[j] = (X1 + X2 + X3) / 3  # Equation (3.7)
                 
+            # Construct neighborhood for each search agents
             radius = numpy.sqrt(numpy.sum((Positions[i, :] - X_GWO)**2))
             neighbor_dist = numpy.array([numpy.sqrt(numpy.sum((Positions[i, :] - Positions[k, :])**2)) for k in range(SearchAgents_no)])
-            neighbor_id = numpy.where(neighbor_dist <= radius)[0]
+            neighbor_id = numpy.where(neighbor_dist <= radius)[0] # Equation (12)
             random_neighbor_id = numpy.random.randint(len(neighbor_id), size=dim)
 
             for j in range(dim):
@@ -181,9 +182,6 @@ def zGWO(objf, lb, ub, dim, SearchAgents_no, Max_iter):
                 Positions[i, :] = X_GWO.copy()
             else:
                 Positions[i, :] = X_DLH.copy()
-                
-            if objf(current_pos) < objf(Positions[i, :]):
-                Positions[i, :] = current_pos.copy()
 
         Convergence_curve[l] = Alpha_score
 
