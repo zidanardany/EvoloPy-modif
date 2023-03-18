@@ -33,6 +33,14 @@ def zGWO(objf, lb, ub, dim, SearchAgents_no, Max_iter):
     # initialize candidate position
     X_GWO = numpy.zeros(dim)
     X_DLH = numpy.zeros(dim)
+    
+    # initialize parameters for levy flight
+    beta = 3 / 2
+    sigma = (
+        math.gamma(1 + beta)
+        * numpy.sin(numpy.pi * beta / 2)
+        / (math.gamma((1 + beta) / 2) * beta * 2 ** ((beta - 1) / 2))
+    ) ** (1 / beta)
 
     if not isinstance(lb, list):
         lb = [lb] * dim
@@ -85,6 +93,25 @@ def zGWO(objf, lb, ub, dim, SearchAgents_no, Max_iter):
                 Delta_score = fitness  # Update delta
                 Delta_pos = Positions[i, :].copy()
 
+        # Update the position of leaders using levy flight
+        u = numpy.random.randn(len(s)) * sigma
+        v = numpy.random.randn(len(s))
+        step = u / abs(v) ** (1 / beta)
+        par = 2 - 2 * ((l ** 2) / (Max_iter ** 2))
+        
+        Leader_pos = np.array([Alpha_pos, Beta_pos, Delta_pos])
+        
+        for i in range(0, len(Leader_pos)):
+            old_pos = Leader_pos[i]
+            new_pos = old_pos + par * step
+            
+            # Return back the search agents that go beyond the boundaries of the search space
+            for j in range(dim):
+                new_pos[j] = numpy.clip(new_pos[j], lb[j], ub[j])
+            
+            if objf(new_pos) < objf(old_pos) :
+                Leader_pos[i] = new_pos
+        
         a = 2 - l * ((2) / Max_iter)
         # a decreases linearly fron 2 to 0
 
@@ -149,9 +176,9 @@ def zGWO(objf, lb, ub, dim, SearchAgents_no, Max_iter):
                 )  # Equation (12)
             
             if objf(X_GWO) < objf(X_DLH):
-                Positions[i, :] = X_GWO
+                Positions[i, :] = X_GWO.copy()
             else:
-                Positions[i, :] = X_DLH
+                Positions[i, :] = X_DLH.copy()
 
         Convergence_curve[l] = Alpha_score
 
