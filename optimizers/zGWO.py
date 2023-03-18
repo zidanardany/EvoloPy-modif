@@ -175,10 +175,15 @@ def zGWO(objf, lb, ub, dim, SearchAgents_no, Max_iter):
                     - Positions[random_wolf[i], j]
                 )  # Equation (12)
             
+            current_pos = Positions[i, :].copy()
+            
             if objf(X_GWO) < objf(X_DLH):
                 Positions[i, :] = X_GWO.copy()
             else:
                 Positions[i, :] = X_DLH.copy()
+                
+            if objf(current_pos) < objf(Positions[i, :]):
+                Positions[i, :] = current_pos.copy()
 
         Convergence_curve[l] = Alpha_score
 
