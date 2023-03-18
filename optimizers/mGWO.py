@@ -30,6 +30,18 @@ def mGWO(objf, lb, ub, dim, SearchAgents_no, Max_iter):
     Delta_pos = numpy.zeros(dim)
     Delta_score = float("inf")
 
+    # initialize candidate position
+    X_GWO = numpy.zeros(dim)
+    X_DLH = numpy.zeros(dim)
+    
+    # initialize parameters for levy flight
+    beta = 3 / 2
+    sigma = (
+        math.gamma(1 + beta)
+        * numpy.sin(numpy.pi * beta / 2)
+        / (math.gamma((1 + beta) / 2) * beta * 2 ** ((beta - 1) / 2))
+    ) ** (1 / beta)
+
     if not isinstance(lb, list):
         lb = [lb] * dim
     if not isinstance(ub, list):
@@ -46,7 +58,7 @@ def mGWO(objf, lb, ub, dim, SearchAgents_no, Max_iter):
     s = solution()
 
     # Loop counter
-    print('mGWO is optimizing  "' + objf.__name__ + '"')
+    print('zGWO is optimizing  "' + objf.__name__ + '"')
 
     timerStart = time.time()
     s.startTime = time.strftime("%Y-%m-%d-%H-%M-%S")
@@ -80,6 +92,25 @@ def mGWO(objf, lb, ub, dim, SearchAgents_no, Max_iter):
             if fitness > Alpha_score and fitness > Beta_score and fitness < Delta_score:
                 Delta_score = fitness  # Update delta
                 Delta_pos = Positions[i, :].copy()
+
+        # Update the position of leaders using levy flight
+        u = numpy.random.randn(dim) * sigma
+        v = numpy.random.randn(dim)
+        step = u / abs(v) ** (1 / beta)
+        par = 2 - 2 * ((l ** 2) / (Max_iter ** 2))
+        
+        Leader_pos = numpy.array([Alpha_pos, Beta_pos, Delta_pos])
+        
+        for i in range(0, len(Leader_pos)):
+            old_pos = Leader_pos[i]
+            new_pos = old_pos + par * step
+            
+            # Return back the search agents that go beyond the boundaries of the search space
+            for j in range(dim):
+                new_pos[j] = numpy.clip(new_pos[j], lb[j], ub[j])
+            
+            if objf(new_pos) < objf(old_pos) :
+                Leader_pos[i] = new_pos
 
         a = 2 - (l**2) * ((2) / (Max_iter**2))
         # a decreases linearly fron 2 to 0
