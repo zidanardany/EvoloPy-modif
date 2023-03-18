@@ -94,8 +94,8 @@ def zGWO(objf, lb, ub, dim, SearchAgents_no, Max_iter):
                 Delta_pos = Positions[i, :].copy()
 
         # Update the position of leaders using levy flight
-        u = numpy.random.randn(len(s)) * sigma
-        v = numpy.random.randn(len(s))
+        u = numpy.random.randn(dim) * sigma
+        v = numpy.random.randn(dim)
         step = u / abs(v) ** (1 / beta)
         par = 2 - 2 * ((l ** 2) / (Max_iter ** 2))
         
