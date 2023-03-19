@@ -54,6 +54,11 @@ def iGWO(objf, lb, ub, dim, SearchAgents_no, Max_iter):
             numpy.random.uniform(0, 1, SearchAgents_no) * (ub[i] - lb[i]) + lb[i]
         )
 
+    # Initialize the fitness value for each search agents
+    Fitness = numpy.zeros(SearchAgents_no)
+    for i in range(0, SearchAgents_no):
+        Fitness[i] = objf(Positions[i, :])
+    
     Convergence_curve = numpy.zeros(Max_iter)
     s = solution()
 
@@ -66,12 +71,8 @@ def iGWO(objf, lb, ub, dim, SearchAgents_no, Max_iter):
     for l in range(0, Max_iter):
         for i in range(0, SearchAgents_no):
 
-            # Return back the search agents that go beyond the boundaries of the search space
-            for j in range(dim):
-                Positions[i, j] = numpy.clip(Positions[i, j], lb[j], ub[j])
-
-            # Calculate objective function for each search agent
-            fitness = objf(Positions[i, :])
+            # Pick fitness value for each search agents
+            fitness = Fitness[i]
 
             # Update Alpha, Beta, and Delta
             if fitness < Alpha_score:
@@ -164,6 +165,12 @@ def iGWO(objf, lb, ub, dim, SearchAgents_no, Max_iter):
 
                 X_GWO[j] = (X1 + X2 + X3) / 3  # Equation (3.7)
                 
+                # Return back each dimension of X_GWO that go beyond the boundaries of the search space
+                X_GWO[j] = numpy.clip(X_GWO[j], lb[j], ub[j])
+                
+            # Calculate objective function for X_GWO
+            Fit_GWO = objf(X_GWO)
+            
             # Construct neighborhood for each search agents
             radius = numpy.sqrt(numpy.sum((Positions[i, :] - X_GWO)**2))
             neighbor_dist = numpy.array([numpy.sqrt(numpy.sum((Positions[i, :] - Positions[k, :])**2)) for k in range(SearchAgents_no)])
@@ -175,13 +182,26 @@ def iGWO(objf, lb, ub, dim, SearchAgents_no, Max_iter):
                     Positions[neighbor_id[random_neighbor_id[j]], j] 
                     - Positions[random_wolf[i], j]
                 )  # Equation (12)
+                
+                # Return back each dimension of X_DLH that go beyond the boundaries of the search space
+                X_DLH[j] = numpy.clip(X_DLH[j], lb[j], ub[j])
+            
+            # Calculate objective function for X_DLH
+            Fit_DLH = objf(X_DLH)
             
             # select best candidate solution
-            if objf(X_GWO) < objf(X_DLH):
-                Positions[i, :] = X_GWO.copy()
+            if Fit_GWO < Fit_DLH:
+                temporary_pos = X_GWO.copy()
+                temporary_fit = Fit_GWO.copy()
             else:
-                Positions[i, :] = X_DLH.copy()
+                temporary_pos = X_DLH.copy()
+                temporary_fit = Fit_DLH.copy()
+                
+            if temporary_fit < Fitness[i]:
+                Positions[i, :] = temporary_pos.copy()
+                Fitness[i] = temporary_fit.copy()
 
+                
         Convergence_curve[l] = Alpha_score
 
         if l % 1 == 0:
