@@ -12,7 +12,7 @@ from solution import solution
 import time
 
 
-def iGWO(objf, lb, ub, dim, SearchAgents_no, Max_iter):
+def nGWO(objf, lb, ub, dim, SearchAgents_no, Max_iter):
 
     # Max_iter=1000
     # lb=-100
@@ -36,11 +36,7 @@ def iGWO(objf, lb, ub, dim, SearchAgents_no, Max_iter):
     
     # initialize parameters for levy flight
     beta = 3 / 2
-    sigma = (
-        math.gamma(1 + beta)
-        * numpy.sin(numpy.pi * beta / 2)
-        / (math.gamma((1 + beta) / 2) * beta * 2 ** ((beta - 1) / 2))
-    ) ** (1 / beta)
+    
 
     if not isinstance(lb, list):
         lb = [lb] * dim
@@ -63,7 +59,7 @@ def iGWO(objf, lb, ub, dim, SearchAgents_no, Max_iter):
     s = solution()
 
     # Loop counter
-    print('iGWO is optimizing  "' + objf.__name__ + '"')
+    print('nGWO is optimizing  "' + objf.__name__ + '"')
 
     timerStart = time.time()
     s.startTime = time.strftime("%Y-%m-%d-%H-%M-%S")
@@ -94,15 +90,18 @@ def iGWO(objf, lb, ub, dim, SearchAgents_no, Max_iter):
                 Delta_score = fitness  # Update delta
                 Delta_pos = Positions[i, :].copy()
 
-        # Update the position of leaders using levy flight
-        u = numpy.random.randn(dim) * sigma
-        v = numpy.random.randn(dim)
-        step = u / abs(v) ** (1 / beta)
-        par = 2 - 2 * ((l ** 2) / (Max_iter ** 2))
-        
+        # Update the position of leaders using brownian motion (normal distribution)        
         Leader_pos = numpy.array([Alpha_pos, Beta_pos, Delta_pos])
+        Leader_score = numpy.array([Alpha_score, Beta_score, Delta_score])
         
         for i in range(0, len(Leader_pos)):
+            sigma = numpy.exp(
+                (Leader_score[i] - Alpha_score) / abs(Alpha_score)
+            )
+            
+            step = numpy.random.randn(dim) * (sigma ** 2)
+            par = 2 - 2 * ((l ** 2) / (Max_iter ** 2))
+            
             old_pos = Leader_pos[i]
             new_pos = old_pos + par * step
             
@@ -213,7 +212,7 @@ def iGWO(objf, lb, ub, dim, SearchAgents_no, Max_iter):
     s.endTime = time.strftime("%Y-%m-%d-%H-%M-%S")
     s.executionTime = timerEnd - timerStart
     s.convergence = Convergence_curve
-    s.optimizer = "iGWO"
+    s.optimizer = "nGWO"
     s.objfname = objf.__name__
 
     return s
