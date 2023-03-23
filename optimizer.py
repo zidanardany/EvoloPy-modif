@@ -8,7 +8,7 @@ from pathlib import Path
 import optimizers.PSO as pso
 import optimizers.MVO as mvo
 import optimizers.GWO as gwo
-import optimizers.pGWO as pgwo
+import optimizers.eGWO as egwo
 import optimizers.lGWO as lgwo
 import optimizers.nGWO as ngwo
 import optimizers.cGWO as cgwo
@@ -53,8 +53,8 @@ def selector(algo, func_details, popSize, Iter):
         x = ffa.FFA(getattr(benchmarks, function_name), lb, ub, dim, popSize, Iter)
     elif algo == "GWO":
         x = gwo.GWO(getattr(benchmarks, function_name), lb, ub, dim, popSize, Iter)
-    elif algo == "pGWO":
-        x = pgwo.pGWO(getattr(benchmarks, function_name), lb, ub, dim, popSize, Iter)
+    elif algo == "eGWO":
+        x = egwo.eGWO(getattr(benchmarks, function_name), lb, ub, dim, popSize, Iter)
     elif algo == "lGWO":
         x = lgwo.lGWO(getattr(benchmarks, function_name), lb, ub, dim, popSize, Iter)
     elif algo == "nGWO":
