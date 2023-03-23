@@ -113,7 +113,7 @@ def iGWO(objf, lb, ub, dim, SearchAgents_no, Max_iter):
             if objf(new_pos) < objf(old_pos) :
                 Leader_pos[i] = new_pos
 
-        a = (1 - (l / Max_iter)) / 1 -  1.1 * (l / Max_iter)
+        a = numpy.cos(numpy.pi / 2 * (l / Max_iter) ** 4)
         # a decreases linearly fron 2 to 0
 
         # Update the Position of search agents including omegas
