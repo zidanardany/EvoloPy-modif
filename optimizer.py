@@ -8,10 +8,10 @@ from pathlib import Path
 import optimizers.PSO as pso
 import optimizers.MVO as mvo
 import optimizers.GWO as gwo
-import optimizers.mGWO as mgwo
-import optimizers.iGWO as igwo
-import optimizers.wGWO as wgwo
-import optimizers.zGWO as zgwo
+import optimizers.pGWO as pgwo
+import optimizers.lGWO as lgwo
+import optimizers.nGWO as ngwo
+import optimizers.cGWO as cgwo
 import optimizers.MFO as mfo
 import optimizers.CS as cs
 import optimizers.BAT as bat
@@ -53,14 +53,14 @@ def selector(algo, func_details, popSize, Iter):
         x = ffa.FFA(getattr(benchmarks, function_name), lb, ub, dim, popSize, Iter)
     elif algo == "GWO":
         x = gwo.GWO(getattr(benchmarks, function_name), lb, ub, dim, popSize, Iter)
-    elif algo == "mGWO":
-        x = mgwo.mGWO(getattr(benchmarks, function_name), lb, ub, dim, popSize, Iter)
-    elif algo == "iGWO":
-        x = igwo.iGWO(getattr(benchmarks, function_name), lb, ub, dim, popSize, Iter)
-    elif algo == "wGWO":
-        x = wgwo.wGWO(getattr(benchmarks, function_name), lb, ub, dim, popSize, Iter)
-    elif algo == "zGWO":
-        x = zgwo.zGWO(getattr(benchmarks, function_name), lb, ub, dim, popSize, Iter)
+    elif algo == "pGWO":
+        x = pgwo.pGWO(getattr(benchmarks, function_name), lb, ub, dim, popSize, Iter)
+    elif algo == "lGWO":
+        x = lgwo.lGWO(getattr(benchmarks, function_name), lb, ub, dim, popSize, Iter)
+    elif algo == "nGWO":
+        x = ngwo.nGWO(getattr(benchmarks, function_name), lb, ub, dim, popSize, Iter)
+    elif algo == "cGWO":
+        x = cgwo.cGWO(getattr(benchmarks, function_name), lb, ub, dim, popSize, Iter)
     elif algo == "WOA":
         x = woa.WOA(getattr(benchmarks, function_name), lb, ub, dim, popSize, Iter)
     elif algo == "MVO":
