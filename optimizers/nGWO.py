@@ -33,10 +33,6 @@ def nGWO(objf, lb, ub, dim, SearchAgents_no, Max_iter):
     # initialize candidate position
     X_GWO = numpy.zeros(dim)
     X_DLH = numpy.zeros(dim)
-    
-    # initialize parameters for levy flight
-    beta = 3 / 2
-    
 
     if not isinstance(lb, list):
         lb = [lb] * dim
