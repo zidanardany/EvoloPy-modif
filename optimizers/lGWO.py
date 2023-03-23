@@ -12,7 +12,7 @@ from solution import solution
 import time
 
 
-def zGWO(objf, lb, ub, dim, SearchAgents_no, Max_iter):
+def lGWO(objf, lb, ub, dim, SearchAgents_no, Max_iter):
 
     # Max_iter=1000
     # lb=-100
@@ -63,7 +63,7 @@ def zGWO(objf, lb, ub, dim, SearchAgents_no, Max_iter):
     s = solution()
 
     # Loop counter
-    print('zGWO is optimizing  "' + objf.__name__ + '"')
+    print('lGWO is optimizing  "' + objf.__name__ + '"')
 
     timerStart = time.time()
     s.startTime = time.strftime("%Y-%m-%d-%H-%M-%S")
@@ -213,7 +213,7 @@ def zGWO(objf, lb, ub, dim, SearchAgents_no, Max_iter):
     s.endTime = time.strftime("%Y-%m-%d-%H-%M-%S")
     s.executionTime = timerEnd - timerStart
     s.convergence = Convergence_curve
-    s.optimizer = "zGWO"
+    s.optimizer = "lGWO"
     s.objfname = objf.__name__
 
     return s
