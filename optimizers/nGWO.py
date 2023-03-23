@@ -95,6 +95,7 @@ def nGWO(objf, lb, ub, dim, SearchAgents_no, Max_iter):
                 (Leader_score[i] - Alpha_score) / abs(Alpha_score)
             )
             
+            # define step size in each dimension
             step = numpy.random.randn(dim) * (sigma ** 2)
             par = 2 - 2 * ((l ** 2) / (Max_iter ** 2))
             
