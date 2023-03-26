@@ -8,6 +8,7 @@ Created on Mon May 16 00:27:50 2016
 import random
 import numpy
 import math
+from copy import copy
 from solution import solution
 import time
 
@@ -192,14 +193,14 @@ def lGWO(objf, lb, ub, dim, SearchAgents_no, Max_iter):
             # select best candidate solution
             if Fit_GWO < Fit_DLH:
                 temporary_pos = X_GWO.copy()
-                temporary_fit = Fit_GWO.copy()
+                temporary_fit = copy(Fit_GWO)
             else:
                 temporary_pos = X_DLH.copy()
-                temporary_fit = Fit_DLH.copy()
+                temporary_fit = copy(Fit_DLH)
                 
             if temporary_fit < Fitness[i]:
                 Positions[i, :] = temporary_pos.copy()
-                Fitness[i] = temporary_fit.copy()
+                Fitness[i] = copy(temporary_fit)
                 
 
         Convergence_curve[l] = Alpha_score
