@@ -335,6 +335,40 @@ def F23(L):
     o = fit.item(0)
     return o
 
+def F24(x):
+    x1 = x[0]
+    x2 = x[1]
+    
+    lb_x1 = 0
+    ub_x1 = 1.5
+    
+    lb_x2 = 0
+    ub_x2 = 1.4
+    
+    if x1 < lb_x1:
+        penalty1 = 1
+    else:
+        penalty1 = 0
+        
+    if x1 > ub_x1:
+        penalty2 = 1
+    else:
+        penalty2 = 0
+        
+    if x2 < lb_x2:
+        penalty3 = 1
+    else:
+        penalty3 = 0
+        
+    if x2 > ub_x2:
+        penalty4 = 1
+    else:
+        penalty4 = 0
+        
+    z = (1 - x1) ** 2 + 100 * (x2 - x1 ** 2) ** 2 + penalty1 + penalty2 + penalty3 + penalty4
+    
+    return z
+
 #-----------------------------------------------------------------------------------------------
 # define the composition function
 def hybrid_composition_func(x, fun_num, func, o, sigma, lamda, bias, M):
