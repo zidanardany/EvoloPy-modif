@@ -97,7 +97,7 @@ def cGWO(objf, lb, ub, dim, SearchAgents_no, Max_iter):
             )
             
             # define step size in each dimension
-            step = cauchy.rvs(scale=sigma**2, size=dim)
+            step = cauchy.rvs(scale=sigma, size=dim)
             par = 2 - 2 * ((l ** 2) / (Max_iter ** 2))
             
             old_pos = Leader_pos[i]
