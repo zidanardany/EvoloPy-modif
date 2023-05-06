@@ -96,7 +96,7 @@ def nGWO(objf, lb, ub, dim, SearchAgents_no, Max_iter):
             )
             
             # define step size in each dimension
-            step = numpy.random.randn(dim) * (sigma ** 2)
+            step = numpy.random.randn(dim) * sigma
             par = 2 - 2 * ((l ** 2) / (Max_iter ** 2))
             
             old_pos = Leader_pos[i]
