@@ -91,12 +91,12 @@ def nGWO(objf, lb, ub, dim, SearchAgents_no, Max_iter):
         Leader_score = numpy.array([Alpha_score, Beta_score, Delta_score])
         
         for i in range(0, len(Leader_pos)):
-            sigma = numpy.exp(
-                (Leader_score[i] - Alpha_score) / abs(Alpha_score)
-            )
+#            sigma = numpy.exp(
+#                (Leader_score[i] - Alpha_score) / abs(Alpha_score)
+#            )
             
             # define step size in each dimension
-            step = numpy.random.randn(dim) * sigma
+            step = numpy.random.randn(dim) * 1
             par = 2 - 2 * ((l ** 2) / (Max_iter ** 2))
             
             old_pos = Leader_pos[i]
