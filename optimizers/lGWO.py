@@ -9,6 +9,7 @@ import random
 import numpy
 import math
 from copy import copy
+from scipy.stats import levy
 from solution import solution
 import time
 
@@ -34,14 +35,6 @@ def lGWO(objf, lb, ub, dim, SearchAgents_no, Max_iter):
     # initialize candidate position
     X_GWO = numpy.zeros(dim)
     X_DLH = numpy.zeros(dim)
-    
-    # initialize parameters for levy flight
-    beta = 1
-    sigma = (
-        math.gamma(1 + beta)
-        * numpy.sin(numpy.pi * beta / 2)
-        / (math.gamma((1 + beta) / 2) * beta * 2 ** ((beta - 1) / 2))
-    ) ** (1 / beta)
 
     if not isinstance(lb, list):
         lb = [lb] * dim
@@ -95,24 +88,29 @@ def lGWO(objf, lb, ub, dim, SearchAgents_no, Max_iter):
                 Delta_score = fitness  # Update delta
                 Delta_pos = Positions[i, :].copy()
 
-        # Update the position of leaders using levy flight
-        u = numpy.random.randn(dim) * sigma
-        v = numpy.random.randn(dim)
-        step = u / abs(v) ** (1 / beta)
-        par = 2 - 2 * ((l ** 2) / (Max_iter ** 2))
-        
+        # Update the position of leaders using levy distribution        
         Leader_pos = numpy.array([Alpha_pos, Beta_pos, Delta_pos])
+        Leader_score = numpy.array([Alpha_score, Beta_score, Delta_score])
         
         for i in range(0, len(Leader_pos)):
+            
+            # define step size in each dimension
+            step = levy.rvs(scale=1, size=dim)
+            par = 2 - 2 * ((l ** 2) / (Max_iter ** 2))
+            
             old_pos = Leader_pos[i]
             new_pos = old_pos + par * step
             
             # Return back the leader that go beyond the boundaries of the search space
             for j in range(dim):
                 new_pos[j] = numpy.clip(new_pos[j], lb[j], ub[j])
+                
+            # Calculate objective function for X_DLH
+            new_score = objf(new_pos)
             
-            if objf(new_pos) < objf(old_pos) :
-                Leader_pos[i] = new_pos
+            if new_score < Leader_score[i] :
+                Leader_pos[i] = new_pos.copy()
+                Leader_score[i] = copy(new_score)
         
         a = 2 - l * ((2) / Max_iter)
         # a decreases linearly fron 2 to 0
