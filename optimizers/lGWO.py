@@ -105,7 +105,7 @@ def lGWO(objf, lb, ub, dim, SearchAgents_no, Max_iter):
             for j in range(dim):
                 new_pos[j] = numpy.clip(new_pos[j], lb[j], ub[j])
                 
-            # Calculate objective function for X_DLH
+            # Calculate new objective function for leaders
             new_score = objf(new_pos)
             
             if new_score < Leader_score[i] :
