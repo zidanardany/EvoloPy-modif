@@ -36,7 +36,7 @@ def lGWO(objf, lb, ub, dim, SearchAgents_no, Max_iter):
     X_DLH = numpy.zeros(dim)
     
     # initialize parameters for levy flight
-    beta = 3 / 2
+    beta = 1
     sigma = (
         math.gamma(1 + beta)
         * numpy.sin(numpy.pi * beta / 2)
