@@ -107,8 +107,12 @@ def cGWO(objf, lb, ub, dim, SearchAgents_no, Max_iter):
             for j in range(dim):
                 new_pos[j] = numpy.clip(new_pos[j], lb[j], ub[j])
             
-            if objf(new_pos) < objf(old_pos) :
-                Leader_pos[i] = new_pos
+            # Calculate new objective function for leaders
+            new_score = objf(new_pos)
+            
+            if new_score < Leader_score[i] :
+                Leader_pos[i] = new_pos.copy()
+                Leader_score[i] = copy(new_score)
 
         a = 2 - (l**2) * ((2) / (Max_iter**2))
         # a decreases linearly fron 2 to 0
