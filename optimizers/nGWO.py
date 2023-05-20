@@ -106,8 +106,12 @@ def nGWO(objf, lb, ub, dim, SearchAgents_no, Max_iter):
             for j in range(dim):
                 new_pos[j] = numpy.clip(new_pos[j], lb[j], ub[j])
             
-            if objf(new_pos) < objf(old_pos) :
-                Leader_pos[i] = new_pos
+            # Calculate new objective function for leaders
+            new_score = objf(new_pos)
+            
+            if new_score < Leader_score[i] :
+                Leader_pos[i] = new_pos.copy()
+                Leader_score[i] = copy(new_score)
 
         a = numpy.cos(numpy.pi / 2 * (l / Max_iter) ** 4)
         # a decreases linearly fron 2 to 0
