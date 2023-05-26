@@ -172,7 +172,11 @@ def lGWO(objf, lb, ub, dim, SearchAgents_no, Max_iter):
                 
             # Construct neighborhood for each search agents
             radius = numpy.sqrt(numpy.sum((Positions[i, :] - X_GWO)**2))
-            neighbor_dist = numpy.array([numpy.sqrt(numpy.sum((Positions[i, :] - Positions[k, :])**2)) for k in range(SearchAgents_no)])
+            neighbor_dist = numpy.array(
+                [numpy.sqrt(
+                    numpy.sum((Positions[i, :] - Positions[k, :])**2)
+                ) for k in range(SearchAgents_no)]
+            )
             neighbor_id = numpy.where(neighbor_dist <= radius)[0] # Equation (12)
             random_neighbor_id = numpy.random.randint(len(neighbor_id), size=dim)
 
