@@ -101,7 +101,8 @@ def lGWO(objf, lb, ub, dim, SearchAgents_no, Max_iter):
             old_pos = Leader_pos[i]
             new_pos = old_pos + par * step
             
-            # Return back the leader that go beyond the boundaries of the search space
+            # Return back the leader 
+            # that go beyond the boundaries of the search space
             for j in range(dim):
                 new_pos[j] = numpy.clip(new_pos[j], lb[j], ub[j])
                 
@@ -164,7 +165,8 @@ def lGWO(objf, lb, ub, dim, SearchAgents_no, Max_iter):
 
                 X_GWO[j] = (X1 + X2 + X3) / 3  # Equation (3.7)
                 
-                # Return back each dimension of X_GWO that go beyond the boundaries of the search space
+                # Return back each dimension of X_GWO 
+                # that go beyond the boundaries of the search space
                 X_GWO[j] = numpy.clip(X_GWO[j], lb[j], ub[j])
                 
             # Calculate objective function for X_GWO
@@ -186,7 +188,8 @@ def lGWO(objf, lb, ub, dim, SearchAgents_no, Max_iter):
                     - Positions[random_wolf[i], j]
                 )  # Equation (12)
                 
-                # Return back each dimension of X_DLH that go beyond the boundaries of the search space
+                # Return back each dimension of X_DLH 
+                # that go beyond the boundaries of the search space
                 X_DLH[j] = numpy.clip(X_DLH[j], lb[j], ub[j])
                 
             # Calculate objective function for X_DLH
