@@ -43,7 +43,7 @@ def GWO(objf, lb, ub, dim, SearchAgents_no, Max_iter):
         )
 
     Convergence_curve = numpy.zeros(Max_iter)
-    Best_position = numpy.zeros(Max_iter)
+    Best_position = numpy.zeros(shape = (Max_iter, dim))
     s = solution()
 
     # Loop counter
