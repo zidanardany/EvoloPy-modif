@@ -43,7 +43,7 @@ def GWO(objf, lb, ub, dim, SearchAgents_no, Max_iter):
         )
 
     Convergence_curve = numpy.zeros(Max_iter)
-    Best_position = numpy.zeros(Max_iter, str)
+    Best_position = numpy.array([])
     s = solution()
 
     # Loop counter
@@ -132,7 +132,7 @@ def GWO(objf, lb, ub, dim, SearchAgents_no, Max_iter):
 
         Convergence_curve[l] = Alpha_score
 
-        Best_position[l] = str(Alpha_pos)
+        Best_position = numpy.append(Best_position, str(Alpha_pos))
 
         if l % 1 == 0:
             print(
