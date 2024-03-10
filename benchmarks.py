@@ -370,6 +370,22 @@ def F24(x):
     return z
 
 #-----------------------------------------------------------------------------------------------
+# AHP function using least square method
+def LSM(weights):
+    comparison_matrix = np.array([[1, 2, 3],
+                                  [0.5, 1, 2],
+                                  [1/3, 0.5, 1]])
+    n = len(weights)
+    obj_value = 0
+    for i in range(n):
+        for j in range(n):
+            obj_value += (comparison_matrix[i][j] - weights[i] / weights[j])**2
+
+    penalty_factor = 100
+    penalty_term = penalty_factor * (np.sum(weights) - 1)**2
+    return obj_value + penalty_term
+
+#-----------------------------------------------------------------------------------------------
 # define the composition function
 def hybrid_composition_func(x, fun_num, func, o, sigma, lamda, bias, M):
     D = len(x)
@@ -674,6 +690,7 @@ def getFunctionDetails(a):
         "F22": ["F22", 0, 10, 4],
         "F23": ["F23", 0, 10, 4],
         "F24": ["F24", 0, 1.5, 2],
+        "LSM": ["LSM", 0, 1, 3],
         "CF1": ["CF1", -5, 5, 10],
         "CF2": ["CF2", -5, 5, 10],
         "CF3": ["CF3", -5, 5, 10],
