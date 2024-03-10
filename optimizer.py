@@ -133,14 +133,19 @@ def run(optimizer, objectivefunc, NumOfRuns, params, export_flags):
     for l in range(0, Iterations):
         CnvgHeader.append("Iter" + str(l + 1))
 
+    for l in range(0, Iterations):
+        CnvgHeader.append("Pos" + str(l + 1))
+
     for i in range(0, len(optimizer)):
         for j in range(0, len(objectivefunc)):
             convergence = [0] * NumOfRuns
+            best_position = [0] * NumOfRuns
             executionTime = [0] * NumOfRuns
             for k in range(0, NumOfRuns):
                 func_details = benchmarks.getFunctionDetails(objectivefunc[j])
                 x = selector(optimizer[i], func_details, PopulationSize, Iterations)
                 convergence[k] = x.convergence
+                best_position[k] = x.bestIndividual
                 optimizerName = x.optimizer
                 objfname = x.objfname
                 if Export_details == True:
@@ -157,7 +162,7 @@ def run(optimizer, objectivefunc, NumOfRuns, params, export_flags):
                             Flag_details = True  # at least one experiment
                         executionTime[k] = x.executionTime
                         a = numpy.concatenate(
-                            [[x.optimizer, x.objfname, x.executionTime], x.convergence]
+                            [[x.optimizer, x.objfname, x.executionTime], x.convergence, x.bestIndividual]
                         )
                         writer.writerow(a)
                     out.close()
